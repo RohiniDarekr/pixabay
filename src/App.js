@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
 
-function App() {
+const Pix = () => {
+    const [data,setData]=useState([]);
+    const[search,setSearch]=useState("");
+    useEffect(()=>{
+        fetch(`https://pixabay.com/api/?key=39413047-b59afbec20289c0587ebe3839&q=${search}&image_type=photo&pretty=true`)
+         .then((res)=>res.json())
+         .then((data)=>setData(data.hits))
+          
+    }
+    
+    )
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <input type="text" onChange={(e)=>setSearch(e.target.value)} />
+        {data&&data.map((d)=>{
+            return(
+                <section>
+                    <img src={d.webformatURL} alt="" />
+                </section>
+            )
+        })}
     </div>
-  );
+  )
 }
 
-export default App;
+export default Pix
